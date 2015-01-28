@@ -91,12 +91,14 @@ if __name__=='__main__':
 	now=datetime.date.today()
 
 	for result in results:
-		ageDays=(now-datetime.date.fromtimestamp(result[3])).days
-		if ageDays<0:
-			#ageText=str(ageDays*-1)+' days new'
-			ageText='future day'
-		else:
-			ageText=str(ageDays)+' days old'
+		ageText='-'
+		if result[3]:
+			ageDays=(now-datetime.date.fromtimestamp(result[3])).days
+			if ageDays<0:
+				#ageText=str(ageDays*-1)+' days new'
+				ageText='future day'
+			else:
+				ageText=str(ageDays)+' days old'
 			
 		print(human_readable_filesize(result[0]).ljust(11)+' '+str(result[1]).ljust(9)+' '+ageText.ljust(14)+' '+str(result[4])+' '+str(result[2]))
 
