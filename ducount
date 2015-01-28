@@ -1,0 +1,104 @@
+#!/usr/bin/python
+
+# Copyright (c) 2015, Simon Thorpe
+# All rights reserved.
+# 
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+# 
+# * Redistributions of source code must retain the above copyright notice, this
+#   list of conditions and the following disclaimer.
+# 
+# * Redistributions in binary form must reproduce the above copyright notice,
+#   this list of conditions and the following disclaimer in the documentation
+#   and/or other materials provided with the distribution.
+# 
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+import os,sys,math,datetime
+def get_dir_filesize_recursive(item,youngest):
+	r=0
+	if os.path.isdir(item):
+		for child in os.listdir(item):
+			o=get_dir_filesize_recursive(item+'/'+child,youngest)
+			r+=o[0]
+			if youngest==None or o[1]>youngest:
+				youngest=o[1]
+	else: # is file
+		r=os.path.getsize(item)
+		d=os.path.getmtime(item)
+		youngest=d
+	return (r,youngest)
+
+def human_readable_filesize(v):
+	v=float(v)
+	if(v>=1024*1024*1024*1024):
+		return str(math.floor(v/(1024*1024*1024*1024)*100)/100)+" TB"
+	if(v>=1024*1024*1024):
+		return str(math.floor(v/(1024*1024*1024)*100)/100)+" GB"
+	elif(v>=1024*1024):
+		return str(math.floor(v/(1024*1024)*100)/100)+" MB"
+	elif(v>=1024):
+		return str(math.floor(v/1024*100)/100)+" KB"
+	else:
+		return str(v)+" bytes"
+
+if __name__=='__main__':
+	if '--help' in sys.argv:
+		sys.stderr.write('ducount - disk usage count\n')
+		sys.stderr.write('Calculates disk usage for files in a given directory.\n')
+		sys.stderr.write('It mimics the functionality of the unix du command by recursively scanning files in\n')
+		sys.stderr.write('the target directory. It will additionally display file count and age information.\n')
+		sys.stderr.write('\n')
+		sys.stderr.write('Usage: ducount [PATH]\n')
+		sys.stderr.write('Columns are printed in the following order:\n')
+		sys.stderr.write('- size\n')
+		sys.stderr.write('- count\n')
+		sys.stderr.write('- age of youngest file in dir (recursive)\n')
+		sys.stderr.write('- dir or file\n')
+		sys.stderr.write('- path\n')
+		exit()
+	path='.'
+	if len(sys.argv)>1:
+		path=sys.argv[-1]
+	items=os.listdir(path)
+	totalCount=len(items)
+	totalSize=0
+	results=[]
+	for item in items:
+		item=path.rstrip('/')+'/'+item
+		fileSize,fileTime=get_dir_filesize_recursive(item,None)
+		l=0
+		for r,d,f in os.walk(item):
+			l+=len(d)+len(f)
+		totalCount+=l
+		totalSize+=fileSize
+		fileType='-'
+		if os.path.isdir(item):
+			fileType='d'
+		results.append((fileSize,l,item,fileTime,fileType))
+
+	results=sorted(results,key=lambda x:x[0])
+	now=datetime.date.today()
+
+	for result in results:
+		ageDays=(now-datetime.date.fromtimestamp(result[3])).days
+		if ageDays<0:
+			#ageText=str(ageDays*-1)+' days new'
+			ageText='future day'
+		else:
+			ageText=str(ageDays)+' days old'
+			
+		print(human_readable_filesize(result[0]).ljust(11)+' '+str(result[1]).ljust(9)+' '+ageText.ljust(14)+' '+str(result[4])+' '+str(result[2]))
+
+	# totals
+	print(human_readable_filesize(totalSize).ljust(11)+' '+str(totalCount).ljust(9)+' .')
