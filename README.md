@@ -25,3 +25,9 @@ root@pc:/mozilla-release$ ducount modules/
 12.11 MB    811       2 days old     d modules/freetype2
 14.74 MB    1138      .
 ```
+
+### Install
+Paste the following line into a terminal to install:
+```
+sudo wget -O/usr/bin/ducount https://raw.githubusercontent.com/simon-thorpe/ducount/master/ducount && sudo chmod +x /usr/bin/ducount
+```
