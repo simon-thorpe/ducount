@@ -15,7 +15,7 @@ Columns are printed in the following order:
 ### Example Usage
 The below example runs ducount on a directory called module. The results are a list of subdirectories showing how many KB each one sums to, the total file count of each one, and the age of the youngest file. The totals of the module directory itself are shown as the last row.
 ```
-root@pc:/mozilla-release$ ducount modules/
+user@pc:/mozilla-release$ ducount modules/
 152.35 KB   14        5 days old     d modules/libbz2
 299.55 KB   72        5 days old     d modules/libmar
 404.06 KB   45        5 days old     d modules/libpref
@@ -30,4 +30,10 @@ root@pc:/mozilla-release$ ducount modules/
 Paste the following line into a terminal to install:
 ```
 sudo wget -O/usr/bin/ducount https://raw.githubusercontent.com/simon-thorpe/ducount/master/ducount && sudo chmod +x /usr/bin/ducount
+```
+
+### Run
+Then run in your directory of choice:
+```
+$ ducount
 ```
