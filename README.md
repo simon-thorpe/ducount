@@ -12,6 +12,8 @@ Columns are printed in the following order:
 - dir or file
 - path
 
+### Examples
+The below example runs ducount on a directory called module. The results are a list of subdirectories showing how many KB each one sums to, the total file count of each one, and the age of the youngest file. The totals of the module directory itself are shown as the last row.
 ```
 root@pc:/mozilla-release$ ducount modules/
 152.35 KB   14        5 days old     d modules/libbz2
