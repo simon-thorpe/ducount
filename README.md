@@ -15,14 +15,14 @@ Columns are printed in the following order:
 ### Example Usage
 The below example runs ducount on a directory called module. The results are a list of subdirectories showing how many KB each one sums to, the total file count of each one, and the age of the youngest file. The totals of the module directory itself are shown as the last row.
 ```
-user@pc:/mozilla-release$ ducount modules/
-152.35 KB   14        5 days old     d modules/libbz2
-299.55 KB   72        5 days old     d modules/libmar
-404.06 KB   45        5 days old     d modules/libpref
-434.2 KB    132       5 days old     d modules/libjar
-580.39 KB   36        5 days old     d modules/zlib
-817.41 KB   21        5 days old     d modules/brotli
-12.11 MB    811       2 days old     d modules/freetype2
+$ ducount reports/
+152.35 KB   14        500 days old   d reports/archived
+299.55 KB   72        28 days old    d reports/last_month
+404.06 KB   45        5 days old     d reports/last_week
+434.2 KB    132       2 days old     d reports/this_week
+580.39 KB   36        1 days old     d reports/yesterday
+817.41 KB   21        0 days old     d reports/today
+12.11 MB    811       0 days old     d reports/current
 14.74 MB    1138      .
 ```
 
