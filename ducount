@@ -80,6 +80,9 @@ if __name__=='__main__':
 		sys.stderr.write('- dir or file\n')
 		sys.stderr.write('- path\n')
 		exit()
+	elif '--version' in sys.argv:
+		print('ducount version 1.1.0')
+		exit()
 	path='.'
 	if len(sys.argv)>1:
 		path=sys.argv[-1]
