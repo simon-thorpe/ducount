@@ -13,7 +13,7 @@ Columns are printed in the following order:
 - path
 
 ### Example Usage
-The below example runs ducount on a directory called module. The results are a list of subdirectories showing how many KB each one sums to, the total file count of each one, and the age of the youngest file. The totals of the module directory itself are shown as the last row.
+The below example runs ducount on a directory called reports. The results are a list of subdirectories showing how many KB each one sums to, the total file count of each one, and the age of the youngest file. The totals of the reports directory itself are shown as the last row.
 ```
 $ ducount reports/
 152.35 KB   14        500 days old   d reports/archived
