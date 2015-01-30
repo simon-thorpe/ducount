@@ -85,7 +85,7 @@ if __name__=='__main__':
 		sys.stderr.write('- path\n')
 		exit()
 	elif '--version' in sys.argv:
-		print('ducount version 1.1.1')
+		print('ducount version 1.2.0')
 		exit()
 	path='.'
 	if len(sys.argv)>1:
