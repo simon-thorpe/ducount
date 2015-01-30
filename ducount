@@ -81,7 +81,7 @@ if __name__=='__main__':
 		sys.stderr.write('- path\n')
 		exit()
 	elif '--version' in sys.argv:
-		print('ducount version 1.1.0')
+		print('ducount version 1.1.1')
 		exit()
 	path='.'
 	if len(sys.argv)>1:
@@ -124,6 +124,6 @@ if __name__=='__main__':
 	print(human_readable_filesize(totalSize).ljust(11)+' '+str(totalCount).ljust(9)+' .')
 	
 	# display any warnings
-	if filter(lambda x:not x[5],results):
+	if list(filter(lambda x:not x[5],results)):
 		printc('WARNING: Some files could not be scanned!','red',True)
 		exit(1)
