@@ -29,8 +29,11 @@ def get_dir_filesize_recursive(item,youngest,readable):
 	r=0
 	if not os.access(item,os.R_OK):
 		return (r,youngest,False)
-	if os.path.isdir(item):
+	islink=os.path.islink(item)
+	if os.path.isdir(item) and not islink:
 		for child in os.listdir(item):
+			if os.path.islink(item):
+				continue
 			o=get_dir_filesize_recursive(item+'/'+child,youngest,readable)
 			if not o[2]:
 				readable=False
@@ -38,7 +41,8 @@ def get_dir_filesize_recursive(item,youngest,readable):
 			if youngest==None or o[1]>youngest:
 				youngest=o[1]
 	else: # is file
-		r=os.path.getsize(item)
+		if not islink:
+			r=os.path.getsize(item)
 		d=os.path.getmtime(item)
 		youngest=d
 	return (r,youngest,readable)
