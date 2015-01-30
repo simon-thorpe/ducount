@@ -47,9 +47,11 @@ def get_dir_filesize_recursive(item,youngest,readable):
 
 def human_readable_filesize(v):
 	v=float(v)
-	if(v>=1024*1024*1024*1024):
+	if(v>=1024*1024*1024*1024*1024):
+		return str(math.floor(v/(1024*1024*1024*1024*1024)*100)/100)+" PB"
+	elif(v>=1024*1024*1024*1024):
 		return str(math.floor(v/(1024*1024*1024*1024)*100)/100)+" TB"
-	if(v>=1024*1024*1024):
+	elif(v>=1024*1024*1024):
 		return str(math.floor(v/(1024*1024*1024)*100)/100)+" GB"
 	elif(v>=1024*1024):
 		return str(math.floor(v/(1024*1024)*100)/100)+" MB"
